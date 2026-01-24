@@ -1,2 +1,2 @@
-# ddcapi
-api wrapper for ddcutil
+# ddchttp
+http wrapper for ddcutil
