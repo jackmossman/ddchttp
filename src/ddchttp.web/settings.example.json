@@ -1,0 +1,45 @@
+{
+	"Site":{
+		"Port": 42024
+	},
+	"Services": {
+		"DisplayProviders": {
+			"Lg45GX950A": {
+				"DisplayNumberOverride": null
+			}
+		}
+	},
+	"Repositories": {
+		"MonitorSettings": {
+			"Ddcutil": {
+				"CommandExecutionPaths": ["/usr/bin/ddcutil"]
+			}
+		}
+	},
+	"Controllers": {
+		"Input": {
+			"AvailableInputs": [
+				{
+					"Ip": "192.168.1.10",
+					"Name": "USBC",
+					"Swap": [ "classic" ]
+				},
+				{
+					"Ip": "192.168.1.20",
+					"Name": "DP",
+					"Swap": [ "classic", "special" ]
+				},
+				{
+					"Ip": "*",
+					"Name": "HDMI2",
+					"Swap": [ "special" ]
+				},
+				{
+					"Ip": "",
+					"Name": "HDMI1",
+					"Swap": []
+				}		
+			]
+		}
+	}
+}

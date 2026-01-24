@@ -1,0 +1,19 @@
+<Solution>
+	<Folder Name="/.solution/">
+		<File Path=".devcontainer/devcontainer.json" />
+		<File Path=".gitignore" />
+		<File Path=".vscode/launch.json" />
+		<File Path=".vscode/tasks.json" />
+		<File Path="ddchttp.slnx" />
+		<File Path="README.md" />
+	</Folder>
+
+	<Folder Name="/src/">
+		<Project Path="src/ddchttp.core/ddchttp.core.csproj" />
+		<Project Path="src/ddchttp.web/ddchttp.web.csproj" />
+	</Folder>
+	
+	<Folder Name="/test/">
+		<Project Path="test/ddchttp.core.tests/ddchttp.core.tests.csproj" />
+	</Folder>
+</Solution>

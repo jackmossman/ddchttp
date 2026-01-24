@@ -1,0 +1,17 @@
+[Unit]
+Description=ddchttp service
+After=network.target
+
+[Service]
+User=ddchttp
+Group=ddchttp
+WorkingDirectory=/usr/local/bin
+Environment=PORT=42024
+ExecStart=/usr/local/bin/ddchttp
+Restart=on-failure
+RestartSec=5
+ProtectSystem=full
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
