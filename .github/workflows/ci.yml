@@ -56,7 +56,8 @@ jobs:
           elif [ "$RUNTIME" = "linux-x86" ]; then
             EXTRA_CMD='apt-get update && apt-get install -y clang llvm gcc-i686-linux-gnu'
           else
-            EXTRA_CMD=''
+            # Ensure a linker/toolchain is present for native AOT on x64
+            EXTRA_CMD='apt-get update && apt-get install -y clang llvm build-essential'
           fi
 
           # Run publish in Docker (use cross-toolchain where needed)
