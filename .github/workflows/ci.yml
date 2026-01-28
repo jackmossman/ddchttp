@@ -33,7 +33,7 @@ jobs:
     needs: test
     strategy:
       matrix:
-        rid: [linux-arm64, linux-x64, linux-x86]
+        rid: [linux-arm64, linux-x64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,8 +53,6 @@ jobs:
           echo "setting install toolchain"
           if [ "$RUNTIME" = "linux-arm64" ]; then
             EXTRA_CMD='apt-get update && apt-get install -y clang llvm gcc-aarch64-linux-gnu'
-          elif [ "$RUNTIME" = "linux-x86" ]; then
-            EXTRA_CMD='apt-get update && apt-get install -y clang llvm gcc-i686-linux-gnu'
           else
             # Ensure a linker/toolchain is present for native AOT on x64
             EXTRA_CMD='apt-get update && apt-get install -y clang llvm build-essential'
