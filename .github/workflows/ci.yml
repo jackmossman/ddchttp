@@ -34,32 +34,29 @@ jobs:
     strategy:
       matrix:
         rid: [linux-arm64, linux-x64]
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:10.0
+      options: --user root
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup .NET 10
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 10.0.x
 
       - name: Publish native AOT binary (${{ matrix.rid }})
         env:
           RUNTIME: ${{ matrix.rid }}
         run: |
-          echo "setting platform"
-          DOCKER_PLATFORM='--platform linux/amd64'
-
-          echo "setting install toolchain"
+          echo "installing toolchain"
           if [ "$RUNTIME" = "linux-arm64" ]; then
-            EXTRA_CMD='apt-get update && apt-get install -y clang llvm gcc-aarch64-linux-gnu'
+            apt-get update && apt-get install -y clang llvm gcc-aarch64-linux-gnu
           else
-            # Ensure a linker/toolchain is present for native AOT on x64
-            EXTRA_CMD='apt-get update && apt-get install -y clang llvm build-essential'
+            apt-get update && apt-get install -y clang llvm build-essential
           fi
 
-          # Run publish in Docker (use cross-toolchain where needed)
-          docker run --rm $DOCKER_PLATFORM -v "${{ github.workspace }}:/src" -w /src mcr.microsoft.com/dotnet/sdk:10.0 bash -lc "$EXTRA_CMD $([ -n "$EXTRA_CMD" ] && echo '&&') dotnet publish src/ddchttp.web/ddchttp.web.csproj -c Release -r $RUNTIME -p:PublishAot=true -p:PublishTrimmed=true --self-contained true -o /src/publish"
+          dotnet publish src/ddchttp.web/ddchttp.web.csproj -c Release -r $RUNTIME --self-contained true -o publish
+
+          # Ensure files created by container (root-owned) are accessible to the runner
+          chown -R $(id -u):$(id -g) publish || true
 
           # Move produced binary to a deterministic name
           if [ -f publish/ddchttp.web ]; then
